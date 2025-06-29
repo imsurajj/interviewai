@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const OMNIDIM_API_KEY = process.env.OMNIDIM_API_KEY || "-enknnAUXVym81SrL6ZepIxU6Yjgzk9bvmI9V8Xv5eA"
+const OMNIDIM_API_KEY = process.env.OMNIDIM_API_KEY;
+if (!OMNIDIM_API_KEY) {
+  throw new Error('OMNIDIM_API_KEY is not set in environment variables.');
+}
 const OMNIDIM_BASE_URL = "https://backend.omnidim.io/api/v1"
 
 export async function GET(request: NextRequest) {
