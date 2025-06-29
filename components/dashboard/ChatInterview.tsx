@@ -1,13 +1,23 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { MessageCircle, Send, Upload, FileText, Loader2, Bot, User, X } from "lucide-react"
+import { Loader2, Bot, User, Send } from "lucide-react"
 import { toast } from "sonner"
+import Image from "next/image"
+import Marquee from "react-fast-marquee"
+
+const SUGGESTIONS = [
+  "Give me interview tips",
+  "How to negotiate salary?",
+  "Resume writing advice",
+  "What are common interview questions?",
+  "How to answer behavioral questions?",
+  "Tips for remote interviews",
+  "How to follow up after an interview?",
+  "What to wear for interviews?"
+];
 
 interface Message {
   id: string
@@ -22,14 +32,14 @@ export default function ChatInterview() {
   const [isLoading, setIsLoading] = useState(false)
   const [agentId, setAgentId] = useState<string | null>(null)
   const [sessionId, setSessionId] = useState<string | null>(null)
+  const [isBotTyping, setIsBotTyping] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+  }, [messages, isBotTyping])
 
-  // Initialize chat agent on component mount
   useEffect(() => {
     initializeChatAgent()
   }, [])
@@ -46,21 +56,16 @@ export default function ChatInterview() {
           action: 'create_agent'
         }),
       })
-
       const result = await response.json()
-
       if (response.ok && result.success) {
         setAgentId(result.agentId)
         setSessionId(`session_${Date.now()}`)
-        
-        // Add welcome message
         setMessages([{
           id: '1',
           text: "Hello! I'm your InterviewAce assistant. I can help you with interview preparation, career guidance, and answer questions about various industries. How can I help you today?",
           sender: 'bot',
           timestamp: new Date()
         }])
-        
         toast.success("Chat agent initialized successfully!")
       } else {
         toast.error(result.error || "Failed to initialize chat agent")
@@ -75,18 +80,16 @@ export default function ChatInterview() {
 
   const sendMessage = async () => {
     if (!inputMessage.trim() || !agentId) return
-
-      const userMessage: Message = {
-        id: Date.now().toString(),
+    const userMessage: Message = {
+      id: Date.now().toString(),
       text: inputMessage,
       sender: 'user',
       timestamp: new Date()
     }
-
     setMessages(prev => [...prev, userMessage])
-      setInputMessage("")
+    setInputMessage("")
     setIsLoading(true)
-
+    setIsBotTyping(true)
     try {
       const response = await fetch('/api/chat-agent', {
         method: 'POST',
@@ -100,9 +103,7 @@ export default function ChatInterview() {
           sessionId: sessionId
         }),
       })
-
       const result = await response.json()
-
       if (response.ok && result.success) {
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
@@ -133,6 +134,7 @@ export default function ChatInterview() {
       toast.error("Failed to send message")
     } finally {
       setIsLoading(false)
+      setIsBotTyping(false)
     }
   }
 
@@ -143,134 +145,146 @@ export default function ChatInterview() {
     }
   }
 
-  return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6 bg-white">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight text-black">AI Chat Assistant</h2>
-      </div>
+  // Check if user has sent any message (not just the welcome bot message)
+  const hasUserMessage = messages.some(m => m.sender === 'user')
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chat Interface */}
-        <div className="lg:col-span-2">
-          <Card className="bg-white border border-gray-200 h-[600px] flex flex-col">
-            <CardHeader>
-              <CardTitle className="text-black flex items-center space-x-2">
-                <MessageCircle className="h-5 w-5" />
-                <span>Chat with AI Assistant</span>
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                Ask questions about interview preparation, career guidance, and industry insights
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="flex-1 flex flex-col">
-              {/* Messages Area */}
-              <div className="flex-1 overflow-y-auto space-y-4 mb-4 p-4 bg-gray-50 rounded-lg">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                      className={`max-w-[80%] p-3 rounded-lg ${
-                        message.sender === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white text-black border border-gray-200'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2 mb-1">
-                        {message.sender === 'user' ? (
-                          <User className="h-4 w-4" />
-                        ) : (
-                          <Bot className="h-4 w-4" />
-                        )}
-                        <span className="text-xs opacity-70">
-                          {message.sender === 'user' ? 'You' : 'AI Assistant'}
-                        </span>
-                      </div>
-                      <p className="text-sm">{message.text}</p>
-                      <p className="text-xs opacity-70 mt-1">
-                        {message.timestamp.toLocaleTimeString()}
-                      </p>
-                </div>
-                  </div>
+  // ChatGPT-style: Centered prompt and input if no user message, else classic chat layout
+  if (!hasUserMessage) {
+    return (
+      <div className="w-full h-full min-h-[80vh] flex flex-col items-center justify-center bg-white text-black">
+        <div className="w-full flex flex-col items-center justify-center">
+          <h1 className="text-2xl md:text-4xl font-semibold mb-6 mt-4 text-center px-2">Ace Your Next Interview with AI</h1>
+          {/* Marquee section below the heading */}
+          <div className="w-full flex flex-col items-center mb-2 px-2">
+            <div className="w-full max-w-full md:max-w-4xl">
+              <Marquee gradient={true} gradientColor="#fff" gradientWidth={40} speed={30} className="flex gap-2 py-2 whitespace-nowrap overflow-hidden">
+                {SUGGESTIONS.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className="mx-1 md:mx-2 px-2 md:px-3 py-1 bg-gray-100 text-xs md:text-sm text-gray-700 rounded hover:bg-blue-100 border border-gray-200 transition h-9"
+                    onClick={() => {
+                      setInputMessage(suggestion);
+                      setShowSuggestions(false);
+                    }}
+                  >
+                    {suggestion}
+                  </button>
                 ))}
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="bg-white text-black border border-gray-200 p-3 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        <span className="text-sm">AI is thinking...</span>
-                      </div>
-                </div>
-              </div>
-                )}
-            <div ref={messagesEndRef} />
-          </div>
-
-              {/* Input Area */}
-            <div className="flex space-x-2">
-                <Textarea
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                  placeholder="Type your message here..."
-                  className="flex-1 resize-none"
-                  rows={2}
-                  disabled={isLoading || !agentId}
-              />
-              <Button
-                onClick={sendMessage}
-                  disabled={!inputMessage.trim() || isLoading || !agentId}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Knowledge Base Panel */}
-        <div className="lg:col-span-1">
-          <Card className="bg-white border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-black flex items-center space-x-2">
-                <FileText className="h-5 w-5" />
-                <span>Knowledge Base</span>
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                Upload documents to enhance AI responses
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              {/* Chat Tips */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-black">Chat Tips</Label>
-                <div className="text-xs text-gray-600 space-y-1">
-                  <p>• Ask about interview preparation</p>
-                  <p>• Get career advice</p>
-                  <p>• Learn about industry trends</p>
-                  <p>• Get resume writing tips</p>
-                  <p>• Ask about salary negotiation</p>
-                </div>
-              </div>
-
-              {/* Status Info */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-black">Status</Label>
-                <div className="text-xs text-gray-600 space-y-1">
-                  <p>✅ Chat functionality: Working</p>
-                  <p>✅ AI responses: Available</p>
-                  <p>✅ File upload: Optional</p>
-                  <p>✅ Knowledge base: Enhanced responses</p>
+              </Marquee>
+              <Marquee gradient={true} gradientColor="#fff" gradientWidth={40} speed={30} direction="right" className="flex gap-2 py-2 whitespace-nowrap overflow-hidden">
+                {SUGGESTIONS.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className="mx-1 md:mx-2 px-2 md:px-3 py-1 bg-gray-100 text-xs md:text-sm text-gray-700 rounded hover:bg-blue-100 border border-gray-200 transition h-9"
+                    onClick={() => {
+                      setInputMessage(suggestion);
+                      setShowSuggestions(false);
+                    }}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </Marquee>
             </div>
           </div>
-            </CardContent>
-          </Card>
+          <form
+            className="w-full max-w-full md:max-w-xl flex flex-col items-center px-2"
+            onSubmit={e => { e.preventDefault(); sendMessage(); }}
+          >
+            <div className="w-full flex items-center bg-gray-100 rounded-2xl px-3 md:px-6 py-3 md:py-4 mb-0 border-2 border-blue-400" style={{gap: 0}}>
+              <Textarea
+                value={inputMessage}
+                onChange={e => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask anything"
+                className="flex-1 resize-none bg-transparent text-black border-0 outline-none focus:outline-none focus:ring-0 focus:border-transparent shadow-none text-base md:text-lg"
+                rows={1}
+                disabled={isLoading || !agentId}
+                style={{minHeight:32,maxHeight:80, boxShadow: 'none'}}
+              />
+              <Button
+                type="submit"
+                disabled={!inputMessage.trim() || isLoading || !agentId}
+                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full px-3 md:px-4 py-2"
+                style={{minWidth:40, minHeight:40}}
+              >
+                <Send className="h-5 w-5" />
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
+    )
+  }
+
+  // Classic chat layout after user sends a message
+  return (
+    <div className="w-full h-full flex flex-col bg-white dark:bg-black overflow-hidden relative" style={{minHeight:0}}>
+      {/* Fixed Header */}
+      <div className="flex items-center justify-between px-2 md:px-4 py-2 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black sticky top-0 z-10">
+        <h2 className="text-lg md:text-xl font-bold tracking-tight text-black">AI Chat Assistant</h2>
+      </div>
+      {/* Scrollable Messages */}
+      <div className="flex-1 overflow-y-auto space-y-4 px-0 md:px-8 py-4 md:py-6 bg-gray-50 min-h-0" style={{scrollbarGutter:'stable'}}>
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className="flex items-end gap-2 max-w-[95vw] md:max-w-[60vw]">
+              {message.sender === 'bot' && (
+                <Image src="/placeholder-logo.png" alt="Bot" width={28} height={28} className="rounded-full md:w-8 md:h-8 w-7 h-7" />
+              )}
+              <div
+                className={`p-2 md:p-3 rounded-lg shadow-sm break-words text-sm md:text-base ${
+                  message.sender === 'user'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-black border border-gray-200'
+                }`}
+              >
+                <p>{message.text}</p>
+              </div>
+              {message.sender === 'user' && (
+                <Image src="/placeholder-user.jpg" alt="You" width={28} height={28} className="rounded-full md:w-8 md:h-8 w-7 h-7" />
+              )}
+            </div>
+          </div>
+        ))}
+        {isBotTyping && (
+          <div className="flex items-center gap-2 px-4 py-2">
+            <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+            <span className="text-sm text-gray-500">AI is typing…</span>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+      {/* Fixed Input Area */}
+      <form
+        className="w-full flex gap-2 px-2 md:px-4 py-3 md:py-4 bg-white border-t border-gray-200 flex-shrink-0 sticky bottom-0 z-10"
+        onSubmit={e => { e.preventDefault(); sendMessage(); }}
+        style={{borderRadius:0, margin:0, paddingBottom:0}}
+      >
+        <Textarea
+          value={inputMessage}
+          onChange={e => setInputMessage(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Type your message here..."
+          className="flex-1 resize-none border-2 border-blue-400 focus:border-blue-600 text-base md:text-lg"
+          rows={2}
+          disabled={isLoading || !agentId}
+          style={{minHeight:40,maxHeight:120, borderRadius:0}}
+        />
+        <Button
+          type="submit"
+          disabled={!inputMessage.trim() || isLoading || !agentId}
+          className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-3 md:px-4 py-2"
+          style={{minWidth:40, minHeight:40}}
+        >
+          <Send className="h-5 w-5" />
+        </Button>
+      </form>
     </div>
   )
 }
