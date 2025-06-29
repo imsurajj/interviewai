@@ -46,9 +46,8 @@
 
 ## 🔑 Credentials
 - **No credentials required to use the live demo.**
-- For maintainers: The only required environment variable is:
+- For maintainers: Copy `.env.example` to `.env` and add your API key:
 
-  Create a `.env` file in the root directory with the following format:
   ```env
   OMNIDIM_API_KEY=your_omnidim_api_key_here
   ```
