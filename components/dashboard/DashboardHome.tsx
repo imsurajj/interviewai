@@ -63,7 +63,7 @@ export default function DashboardHome() {
               <Card className="p-4 hover:shadow-md transition-shadow bg-white border border-gray-200">
                 <div className="flex items-center space-x-4">
                   <div className="p-2 bg-blue-100 rounded-lg">
-                    <Mic className="h-6 w-6 text-blue-600" />
+                    <Mic className="h-6 w-6 text-red-600" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-black">Voice Interview</h3>
@@ -71,7 +71,7 @@ export default function DashboardHome() {
                   </div>
                 </div>
                 <Link href="/dashboard/voice-interview" className="mt-4 block">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Start Voice Practice</Button>
+                  <Button className="w-full bg-red-600 hover:bg-red-700 text-white">Start Voice Practice</Button>
                 </Link>
               </Card>
 
@@ -102,7 +102,7 @@ export default function DashboardHome() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-black">Voice Interview - Technical</p>
                   <p className="text-xs text-gray-600">2 hours ago</p>

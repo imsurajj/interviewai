@@ -1,50 +1,39 @@
-import { UserPlus, Settings, Mic, TrendingUp } from "lucide-react"
+import { UserPlus, Mic, TrendingUp } from "lucide-react"
 
 const steps = [
   {
-    icon: UserPlus,
     title: "Sign Up",
-    description: "Create your account and set up your profile in minutes.",
+    description: "Create your free InterviewLab account in seconds.",
+    icon: <UserPlus className="size-7 text-red-600" />,
   },
   {
-    icon: Settings,
-    title: "Choose Your Focus",
-    description: "Select the type of interview and industry you want to practice for.",
+    title: "Practice",
+    description: "Start a mock interview with voice or chat instantly.",
+    icon: <Mic className="size-7 text-red-600" />,
   },
   {
-    icon: Mic,
-    title: "Start Practicing",
-    description: "Begin your voice or chat interview session with our AI interviewer.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Improve & Repeat",
-    description: "Review feedback, track progress, and continue improving your skills.",
+    title: "Improve",
+    description: "Get feedback, track your progress, and grow your skills.",
+    icon: <TrendingUp className="size-7 text-red-600" />,
   },
 ]
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">How It Works</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get started with interview practice in just four simple steps.
-          </p>
+    <section className="py-24">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-center mb-2 text-black">How It Works</h2>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="text-center">
-              <div className="flex items-center justify-center w-20 h-20 bg-blue-600 rounded-full mx-auto mb-6">
-                <step.icon className="h-10 w-10 text-white" />
+        <div className="grid gap-10 md:grid-cols-3">
+          {steps.map((step, i) => (
+            <div key={i} className="flex flex-col items-center text-center p-8 border border-gray-200 rounded-2xl bg-white relative">
+              <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-gray-100 text-xl font-bold text-red-600">
+                {step.icon}
               </div>
-              <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-4 text-sm font-bold">
-                {index + 1}
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-black">{step.title}</h3>
-              <p className="text-gray-600">{step.description}</p>
+              <div className="mb-2 text-sm font-semibold text-gray-400">Step {i + 1}</div>
+              <h3 className="mb-2 text-xl font-semibold text-black">{step.title}</h3>
+              <p className="text-gray-600 text-base">{step.description}</p>
             </div>
           ))}
         </div>

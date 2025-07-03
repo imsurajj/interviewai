@@ -8,7 +8,7 @@ const testimonials = [
     role: "Software Engineer",
     company: "Google",
     content:
-      "InterviewAce helped me land my dream job at Google. The AI feedback was incredibly detailed and helped me improve my technical communication skills.",
+      "InterviewLab helped me land my dream job at Google. The AI feedback was incredibly detailed and helped me improve my technical communication skills.",
     rating: 5,
   },
   {
@@ -60,7 +60,7 @@ export default function Testimonials() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Success Stories</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join thousands of professionals who have improved their interview skills with InterviewAce.
+            Join thousands of professionals who have improved their interview skills with InterviewLab.
           </p>
         </div>
 

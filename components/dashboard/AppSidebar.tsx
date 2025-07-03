@@ -58,14 +58,11 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-lg">
-            <Zap className="size-5" />
+        <div className="flex items-center gap-2 px-4 py-3">
+          <div className="flex aspect-square size-7 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg">
+            <Zap className="size-4" />
           </div>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-bold text-lg text-blue-600">InterviewAce</span>
-            <span className="truncate text-xs text-gray-500">AI Interview Practice</span>
-          </div>
+          <span className="truncate font-bold text-base text-red-600">InterviewLab</span>
         </div>
       </SidebarHeader>
 

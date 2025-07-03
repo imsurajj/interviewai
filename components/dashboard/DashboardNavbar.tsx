@@ -63,10 +63,10 @@ export default function DashboardNavbar() {
           <SidebarTrigger />
           {state === "collapsed" && (
             <Link href="/dashboard" className="flex items-center space-x-2">
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-lg">
+              <div className="flex aspect-square size-7 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg">
                 <Zap className="size-4" />
               </div>
-              {!isMobile && <span className="text-xl font-bold text-blue-600">InterviewAce</span>}
+              {!isMobile && <span className="text-xl font-bold text-red-600">InterviewLab</span>}
             </Link>
           )}
         </div>
@@ -93,7 +93,7 @@ export default function DashboardNavbar() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-xs text-blue-600 hover:text-blue-700"
+                        className="text-xs text-red-600 hover:text-red-700"
                         onClick={markAllAsRead}
                       >
                         Mark all as read
@@ -106,7 +106,7 @@ export default function DashboardNavbar() {
                     <div
                       key={notification.id}
                       className={`p-3 rounded-lg border ${
-                        notification.unread ? "bg-blue-50 border-blue-200" : "bg-gray-50 border-gray-200"
+                        notification.unread ? "bg-red-50 border-red-200" : "bg-gray-50 border-gray-200"
                       }`}
                     >
                       <div className="flex items-start justify-between">
@@ -120,11 +120,11 @@ export default function DashboardNavbar() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-6 w-6 p-0 hover:bg-blue-100"
+                              className="h-6 w-6 p-0 hover:bg-red-100"
                               onClick={() => markAsRead(notification.id)}
                               title="Mark as read"
                             >
-                              <Check className="h-3 w-3 text-blue-600" />
+                              <Check className="h-3 w-3 text-red-600" />
                             </Button>
                           )}
                           <Button

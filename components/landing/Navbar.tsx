@@ -22,34 +22,34 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-lg">
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg">
                 <Zap className="size-4" />
               </div>
-              <span className="text-2xl font-bold text-blue-600">InterviewAce</span>
+              <span className="text-2xl font-bold text-red-600">InterviewLab</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <Link href="/" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/" className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium">
                 Home
               </Link>
               <button
                 onClick={() => scrollToSection("features")}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Features
               </button>
               <button
                 onClick={() => scrollToSection("how-it-works")}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 How It Works
               </button>
               <button
                 onClick={() => scrollToSection("testimonials")}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Testimonials
               </button>
@@ -57,14 +57,14 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:block">
-            <Link href="/auth">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button>
+            <Link href="/dashboard">
+              <Button className="bg-red-600 hover:bg-red-700 text-white">Go to Dashboard</Button>
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-700 hover:text-blue-600">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-700 hover:text-red-600">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -76,31 +76,31 @@ export default function Navbar() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
               <Link
                 href="/"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+                className="text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
               <button
                 onClick={() => scrollToSection("features")}
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
+                className="text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
               >
                 Features
               </button>
               <button
                 onClick={() => scrollToSection("how-it-works")}
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
+                className="text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
               >
                 How It Works
               </button>
               <button
                 onClick={() => scrollToSection("testimonials")}
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
+                className="text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
               >
                 Testimonials
               </button>
               <Link href="/auth" className="block px-3 py-2" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button>
+                <Button className="w-full bg-red-600 hover:bg-red-700 text-white">Get Started</Button>
               </Link>
             </div>
           </div>

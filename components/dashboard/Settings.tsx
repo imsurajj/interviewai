@@ -52,7 +52,7 @@ export default function Settings() {
               <Input
                 id="email"
                 type="email"
-                defaultValue="demo@interviewace.com"
+                defaultValue="demo@interviewlab.com"
                 className="bg-white border-gray-300"
               />
             </div>
@@ -76,7 +76,7 @@ export default function Settings() {
                 </SelectContent>
               </Select>
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save Profile</Button>
+            <Button className="bg-red-600 hover:bg-red-700 text-white">Save Profile</Button>
           </CardContent>
         </Card>
 
@@ -198,7 +198,7 @@ export default function Settings() {
               </Label>
               <Input id="confirmPassword" type="password" className="bg-white border-gray-300" />
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">Update Password</Button>
+            <Button className="bg-red-600 hover:bg-red-700 text-white">Update Password</Button>
 
             <Separator />
 

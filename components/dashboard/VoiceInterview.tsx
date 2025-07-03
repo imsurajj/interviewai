@@ -237,7 +237,7 @@ export default function VoiceInterview() {
             </div>
 
             {isPlaying && (
-              <div className="mt-4 flex items-center space-x-2 text-blue-600">
+              <div className="mt-4 flex items-center space-x-2 text-red-600">
                 <Volume2 className="h-4 w-4" />
                 <span className="text-sm">HR is speaking the question...</span>
               </div>
@@ -292,9 +292,9 @@ export default function VoiceInterview() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <h4 className="font-medium text-blue-900">Before the Call</h4>
-              <ul className="text-sm text-blue-700 mt-2 space-y-1">
+            <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+              <h4 className="font-medium text-red-900">Before the Call</h4>
+              <ul className="text-sm text-red-700 mt-2 space-y-1">
                 <li>• Find a quiet environment with good phone signal</li>
                 <li>• Have your resume and portfolio ready for reference</li>
                 <li>• Prepare some questions to ask the AI interviewer</li>

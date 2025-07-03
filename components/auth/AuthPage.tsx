@@ -26,12 +26,12 @@ export default function AuthPage() {
     setLoading(true)
     // Demo credentials
     setTimeout(() => {
-      if (email === "demo@interviewace.com" && password === "demo123") {
+      if (email === "demo@interviewlab.com" && password === "demo123") {
         // Simulate successful login
         localStorage.setItem("isAuthenticated", "true")
         router.push("/dashboard")
       } else {
-        setError("Invalid credentials. Use demo@interviewace.com / demo123")
+        setError("Invalid credentials. Use demo@interviewlab.com / demo123")
       }
       setLoading(false)
     }, 800)
@@ -41,7 +41,7 @@ export default function AuthPage() {
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8">
-          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-700">
+          <Link href="/" className="inline-flex items-center text-red-600 hover:text-red-700">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Home
           </Link>
@@ -49,7 +49,7 @@ export default function AuthPage() {
 
         <Card className="bg-white border border-gray-200">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-black">Welcome to InterviewAce</CardTitle>
+            <CardTitle className="text-2xl font-bold text-black">Welcome to InterviewLab</CardTitle>
             <CardDescription className="text-gray-600">
               Sign in to start practicing your interview skills
             </CardDescription>
@@ -104,7 +104,7 @@ export default function AuthPage() {
                 </Alert>
               )}
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={loading}>
+              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={loading}>
                 {loading ? (
                   <span className="flex items-center justify-center"><svg className="animate-spin h-4 w-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>Signing In...</span>
                 ) : (
@@ -115,20 +115,20 @@ export default function AuthPage() {
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <div className="bg-blue-50 p-4 rounded-lg w-full border border-blue-200">
-              <h4 className="font-semibold text-sm mb-3 text-blue-900">Demo Credentials</h4>
+            <div className="bg-red-50 p-4 rounded-lg w-full border border-red-200">
+              <h4 className="font-semibold text-sm mb-3 text-red-900">Demo Credentials</h4>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-600">Email:</span>
                   <div className="flex items-center space-x-1">
-                    <code className="text-xs bg-white px-2 py-1 rounded border text-blue-700">
-                      demo@interviewace.com
+                    <code className="text-xs bg-white px-2 py-1 rounded border text-red-700">
+                      demo@interviewlab.com
                     </code>
                     <Button
                       variant="ghost"
                       size="sm"
                       className="h-6 w-6 p-0"
-                      onClick={() => navigator.clipboard.writeText("demo@interviewace.com")}
+                      onClick={() => navigator.clipboard.writeText("demo@interviewlab.com")}
                     >
                       <Copy className="h-3 w-3" />
                     </Button>
@@ -137,7 +137,7 @@ export default function AuthPage() {
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-600">Password:</span>
                   <div className="flex items-center space-x-1">
-                    <code className="text-xs bg-white px-2 py-1 rounded border text-blue-700">demo123</code>
+                    <code className="text-xs bg-white px-2 py-1 rounded border text-red-700">demo123</code>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -153,7 +153,7 @@ export default function AuthPage() {
 
             <div className="text-center text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link href="#" className="text-blue-600 hover:underline">
+              <Link href="#" className="text-red-600 hover:underline">
                 Sign up
               </Link>
             </div>
